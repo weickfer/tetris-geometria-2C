@@ -1,4 +1,4 @@
 export const config = {
-  dropInterval: 15,
+  dropInterval: 10,
   fallFactor: 0.02,
 }
