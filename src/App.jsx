@@ -1,12 +1,10 @@
 import { Canvas } from '@react-three/fiber';
 import { TetrisGrid } from './components/tetris-grid';
-import { geometricFormulas, geometricFormulasEntries } from './utils/consts';
 import { useBlocks } from './context/BlocksContext';
 import { TogglePause } from './components/toggle-pause';
-import { formulas, getFormulaByPath } from './utils/formulas';
+import { getFormulaByPath } from './utils/formulas';
 import { useEffect } from 'react';
-import { getValueByPath } from './utils/get-value-by-path';
-import { GeometryMesh } from './components/geometry-mesh';
+import { GoToFormulas } from './components/go-to-formulas';
 
 export default function App() {
   const { options, killBlock } = useBlocks()
@@ -20,6 +18,7 @@ export default function App() {
   return (
     <div className="w-full h-screen">
       <TogglePause />
+      <GoToFormulas />
       <Canvas className="bg-slate-900" camera={{ position: [0, 0, 10] }}>
         <ambientLight intensity={0.5} />
         <directionalLight position={[0, 10, 5]} intensity={1} />

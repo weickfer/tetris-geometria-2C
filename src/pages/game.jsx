@@ -4,6 +4,7 @@ import { TogglePause } from "../components/toggle-pause";
 import { Canvas } from "@react-three/fiber";
 import { TetrisGrid } from "../components/tetris-grid";
 import { getFormulaByPath } from "../utils/formulas";
+import { GoToFormulas } from "../components/go-to-formulas";
 
 export function Game() {
   const { options, killBlock } = useBlocks()
@@ -17,6 +18,7 @@ export function Game() {
   return (
     <div className="w-full h-screen">
       <TogglePause />
+      <GoToFormulas />
       <Canvas className="bg-slate-900" camera={{ position: [0, 0, 10] }}>
         <ambientLight intensity={0.5} />
         <directionalLight position={[0, 10, 5]} intensity={1} />

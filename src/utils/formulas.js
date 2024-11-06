@@ -86,8 +86,6 @@ export const formulasKeys = Object.keys(formulas)
 export function getFormulaByPath(path) {
   const formula = getValueByPath(formulas, path)
 
-  console.log(formula)
-
   if (typeof formula === 'string') {
     return formula
   }
