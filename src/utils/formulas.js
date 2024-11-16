@@ -81,7 +81,15 @@ export const formulas = {
     volume: 'V = \\frac{4}{3} \\cdot \\pi \\cdot r^3'
   }
 }
-export const formulasKeys = Object.keys(formulas)
+// export const formulasKeys = Object.keys(formulas)
+
+export const formulasKeys = Object.entries(formulas).flatMap(([key, value]) => {
+  if (typeof value === 'object') {
+    return Object.keys(value).map(subKey => `${key}.${subKey}`);
+  }
+  return key;
+});
+
 
 export function getFormulaByPath(path) {
   const formula = getValueByPath(formulas, path)

@@ -1,8 +1,9 @@
-import React, { createContext, useContext, useEffect, useRef, useState } from 'react';
-import { shapes } from '../utils/get-geometry';
+import React, { createContext, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { randomSort } from '../utils/random-sort';
 import { formulas, formulasKeys } from '../utils/formulas';
-import { config } from '../utils/config';
+import { getRandomFormula } from '../utils/get-random-formula';
+import { getParamsOptions } from '../utils/get-params-options';
+import { difficultyMap } from '../utils/difficulty-map';
 
 
 const BlocksContext = createContext();
@@ -11,54 +12,63 @@ export function useBlocks() {
   return useContext(BlocksContext);
 }
 
+const { difficulty } = getParamsOptions()
+
 export function BlocksProvider({ children }) {
   const [blocks, setBlocks] = useState([]);
   const [isPlaying, setIsPlaying] = useState(true)
+  const [timerSeconds, setTimerSeconds] = useState(0)
+  const nowRef = useRef()
+
+
   const uniqueFormulas = [...new Set(blocks.map(block => block.formulaId))];
-  const options = randomSort([
+  const options = useMemo(() => randomSort([
     ...uniqueFormulas, 
 
-    ...Object.keys(formulas).slice(0, Math.max(0, 3 - uniqueFormulas.length))
-  ])
+    // ...Object.keys(formulas).slice(0, Math.max(0, 3 - uniqueFormulas.length))
+    ...formulasKeys.filter(fK => !uniqueFormulas.some(uF => fK.includes(uF))).slice(0, 3 - uniqueFormulas.length)
+  ]), [blocks])
+
+  const handleSelectFormula = () => {
+    const block = getRandomFormula(difficultyMap[difficulty].formulas ?? null)
+        
+    setBlocks((blocks) => [...blocks, block]);
+  }
+
+  useEffect(() => handleSelectFormula(), [])
+
 
   useEffect(() => {
-    let interval;
+    let blocksInterval;
+    let timerInterval;
+    nowRef.current = Date.now()
 
     if (isPlaying) {
-      interval = setInterval(() => {
-        const randomShape = formulasKeys[Math.floor(Math.random() * formulasKeys.length)];
-        const shapeFormulas = Object.keys(formulas[randomShape])
-        const selectedFormula = shapeFormulas[Math.floor(Math.random() * shapeFormulas.length)]
-        const formulaId = `${randomShape}.${selectedFormula}`
+      blocksInterval = setInterval(handleSelectFormula, difficultyMap[difficulty].interval);
+      
   
-        const newBlock = {
-          id: `id-${Date.now()}-${Math.floor(Math.random() * 10000)}`,
-          formulaId,
-          shape: randomShape, 
-          selectedFormula,
-          position: [(Math.random() * 6) - 3, 8], // Posição inicial aleatória
-        };
-        
-        setBlocks((blocks) => [...blocks, newBlock]);
-      }, 1000 * config.dropInterval); // A cada 1000ms (1 segundo)
+      timerInterval = setInterval(() => {
+        const now = Date.now()
+  
+        setTimerSeconds((now - nowRef.current) / 1000)
+      }, 1000)
     }
 
     return () => {
-      clearInterval(interval);
+      clearInterval(blocksInterval);
+      clearInterval(timerInterval);
     };
   }, [isPlaying]); 
-
-  const handleSettle = (position) => {
-    // Quando um bloco "para", ele é movido para `settledBlocks`
-    // setSettledBlocks((prev) => [...prev, position]);
-    setBlocks((prev) => prev.slice(1)); // Remove o bloco atual
-  };
 
   const killBlock = (formulaId) => {
     setBlocks(blocks => blocks.filter(block => block.formulaId !== formulaId))
   }
 
-  const value = { blocks, handleSettle, options, isPlaying, setIsPlaying, killBlock };
+  const finishGame = () => {
+    setIsPlaying(false)
+  }
+
+  const value = { blocks, options, isPlaying, setIsPlaying, killBlock, timerSeconds, finishGame };
 
   return (
     <BlocksContext.Provider value={value}>

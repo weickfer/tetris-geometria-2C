@@ -1,19 +1,6 @@
 import { Edges } from '@react-three/drei';
 import * as THREE from 'three';
 
-// trapezoid: (
-//   <shapeGeometry
-//     args={[
-//       new THREE.Shape()
-//         .moveTo(-1, -1)
-//         .lineTo(-0.5, 1)
-//         .lineTo(0.5, 1)
-//         .lineTo(1, -1)
-//         .closePath(),
-//     ]}
-//   />
-// ),
-
 function TriangularBase({ position, color }) {
   const triangleShape = new THREE.Shape();
   const radius = 0.5; // Raio da base triangular

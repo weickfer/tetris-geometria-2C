@@ -2,14 +2,24 @@ import { createBrowserRouter, RouterProvider as ReactRouterProvider } from "reac
 import { Formulas } from "./pages/formulas";
 import { BlocksProvider } from "./context/BlocksContext";
 import { Game } from "./pages/game";
+import { Home } from "./pages/home";
+import { RequireQueryParams } from "./utils/requiro-query-params";
 
 export const router = createBrowserRouter([
   {
+    path: "/",
+    element: (
+      <Home />
+    ),
+  },
+  {
     path: "/game",
     element: (
-      <BlocksProvider>
-        <Game />
-      </BlocksProvider>
+      <RequireQueryParams requiredParams={['difficulty']}>
+        <BlocksProvider>
+          <Game />
+        </BlocksProvider>
+      </RequireQueryParams>
     ),
   },
   {
