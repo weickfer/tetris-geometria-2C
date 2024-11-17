@@ -18,7 +18,7 @@ export function TetrisGrid() {
           key={block.id}
           position={block.position}
           shape={block.shape}
-          variant={block.selectedFormula}
+          variant={block.property}
         />
       ))}
       {/* {settledBlocks.map((pos, i) => (

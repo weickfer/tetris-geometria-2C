@@ -23,7 +23,7 @@ export function FallingBlock({ position, shape, variant }) {
       setY(y - gravity);
     } else {
       // Chama a função `onSettle` para notificar que o cubo atingiu o chão
-      handleSettle([position[0], y]);
+      // handleSettle([position[0], y]);
     }
 
     if(!shapes2D.includes(shape)) {

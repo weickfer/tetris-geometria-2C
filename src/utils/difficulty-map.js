@@ -9,10 +9,12 @@ export const difficultyMap = {
     gravity: 0.025,
     interval: 6 * 1000,
     timeTotal: 60 * 2,
+    formulas: '*',
   }, 
   hard: {
     gravity: 0.04,
     interval: 3 * 1000,
     timeTotal: 60 * 1,
+    formulas: '*',
   }
 }

@@ -1,23 +1,23 @@
 import { formulasKeys } from "./formulas";
 
-export function getRandomFormula(filter) {
-  const formulas = formulasKeys.filter(
-    formula => filter ? filter.some(f => formula.includes(f)) : true
+export function getRandomFormula(filtersArray) {
+  const filteredFormulasKeys = formulasKeys.filter(
+    formula => 
+      filtersArray === '*' || 
+      filtersArray.some(
+        filter => formula.includes(filter)
+      )
   )
 
-  const formula = formulas[Math.floor(Math.random() * formulas.length)]
+  const formulaKey = filteredFormulasKeys[Math.floor(Math.random() * filteredFormulasKeys.length)]
 
-  const [shape, selectedFormula] = formula.split('.')
-  // const randomShape = formulasKeys[Math.floor(Math.random() * formulasKeys.length)];
-  // const shapeFormulas = Object.keys(formulas[randomShape])
-  // const selectedFormula = shapeFormulas[Math.floor(Math.random() * shapeFormulas.length)]
-  // const formulaId = `${randomShape}.${selectedFormula}`
+  const [shape, property] = formulaKey.split('.')
 
   return {
     id: `id-${Date.now()}-${Math.floor(Math.random() * 10000)}`,
-    formulaId: formula,
+    formulaKey,
     shape, 
-    selectedFormula,
+    property,
     position: [(Math.random() * 6) - 3, 8], // Posição inicial aleatória
   }
 }

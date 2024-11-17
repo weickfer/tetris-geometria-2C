@@ -21,7 +21,7 @@ export function BlocksProvider({ children }) {
   const nowRef = useRef()
 
 
-  const uniqueFormulas = [...new Set(blocks.map(block => block.formulaId))];
+  const uniqueFormulas = [...new Set(blocks.map(block => block.formulaKey))];
   const options = useMemo(() => randomSort([
     ...uniqueFormulas, 
 
@@ -60,8 +60,8 @@ export function BlocksProvider({ children }) {
     };
   }, [isPlaying]); 
 
-  const killBlock = (formulaId) => {
-    setBlocks(blocks => blocks.filter(block => block.formulaId !== formulaId))
+  const killBlock = (formulaKey) => {
+    setBlocks(blocks => blocks.filter(block => block.formulaKey !== formulaKey))
   }
 
   const finishGame = () => {
