@@ -18,6 +18,7 @@ export function BlocksProvider({ children }) {
   const [blocks, setBlocks] = useState([]);
   const [isPlaying, setIsPlaying] = useState(true)
   const [timerSeconds, setTimerSeconds] = useState(0)
+  const [currentScore, setCurrentScore] = useState(0)
 
   const uniqueFormulas = [...new Set(blocks.map(block => block.formulaKey))];
   const options = useMemo(() => randomSort([
@@ -56,14 +57,23 @@ export function BlocksProvider({ children }) {
   }, [isPlaying]); 
 
   const killBlock = (formulaKey) => {
-    setBlocks(blocks => blocks.filter(block => block.formulaKey !== formulaKey))
+    const blockExists = blocks.findIndex(block => block.formulaKey === formulaKey)
+
+    if(blockExists !== -1) {
+      setBlocks(blocks => blocks.filter(block => block.formulaKey !== formulaKey))
+      setCurrentScore(currentScore + 10)
+    } else {
+      setCurrentScore(currentScore - 5)
+    }
+
   }
 
   const finishGame = () => {
     setIsPlaying(false)
+    setBlocks([])
   }
 
-  const value = { blocks, options, isPlaying, setIsPlaying, killBlock, timerSeconds, finishGame };
+  const value = { blocks, options, isPlaying, setIsPlaying, killBlock, timerSeconds, finishGame, currentScore };
 
   return (
     <BlocksContext.Provider value={value}>

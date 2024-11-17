@@ -18,9 +18,5 @@ export function Timer() {
     }
   }, [time])
 
-  return (
-    <div className="absolute top-2 font-mono right-2 z-50 cursor-pointer text-white">
-      {`${String(minutes).padStart(2, '0')}:${String(secs).padStart(2, '0')}`}
-    </div>
-  );
+  return `${String(minutes).padStart(2, '0')}:${String(secs).padStart(2, '0')}`
 };
