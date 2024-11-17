@@ -18,8 +18,6 @@ export function BlocksProvider({ children }) {
   const [blocks, setBlocks] = useState([]);
   const [isPlaying, setIsPlaying] = useState(true)
   const [timerSeconds, setTimerSeconds] = useState(0)
-  const nowRef = useRef()
-
 
   const uniqueFormulas = [...new Set(blocks.map(block => block.formulaKey))];
   const options = useMemo(() => randomSort([
@@ -41,16 +39,13 @@ export function BlocksProvider({ children }) {
   useEffect(() => {
     let blocksInterval;
     let timerInterval;
-    nowRef.current = Date.now()
 
     if (isPlaying) {
       blocksInterval = setInterval(handleSelectFormula, difficultyMap[difficulty].interval);
       
   
       timerInterval = setInterval(() => {
-        const now = Date.now()
-  
-        setTimerSeconds((now - nowRef.current) / 1000)
+        setTimerSeconds(timerSeconds => timerSeconds + 1)
       }, 1000)
     }
 
