@@ -20,12 +20,19 @@ export function BlocksProvider({ children }) {
   const [timerSeconds, setTimerSeconds] = useState(0)
   const [currentScore, setCurrentScore] = useState(0)
 
-  const uniqueFormulas = [...new Set(blocks.map(block => block.formulaKey))];
+  const blocksFormulas = [...new Set(blocks.map(block => block.formulaKey))];
   const options = useMemo(() => randomSort([
-    ...uniqueFormulas, 
+    ...blocksFormulas, 
 
-    // ...Object.keys(formulas).slice(0, Math.max(0, 3 - uniqueFormulas.length))
-    ...formulasKeys.filter(fK => !uniqueFormulas.some(uF => fK.includes(uF))).slice(0, 3 - uniqueFormulas.length)
+    ...randomSort(formulasKeys)
+      .filter(formulaKey => 
+        !blocksFormulas.some(
+          blockFormula => formulaKey.includes(blockFormula)
+        )
+      ).slice(
+        0, 
+        Math.max(3 - blocksFormulas.length, 0)
+      )
   ]), [blocks])
 
   const handleSelectFormula = () => {

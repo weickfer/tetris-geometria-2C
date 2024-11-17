@@ -17,7 +17,7 @@ export function Game() {
   }, [options])
   
   return (
-    <div className="w-full h-screen">
+    <div className="w-full h-screen overflow-y-hidden">
       <TogglePause />
       <Board />
       {/* <GoToFormulas /> */}
@@ -27,7 +27,7 @@ export function Game() {
         <TetrisGrid />
       </Canvas>
 
-      <div className="flex gap-3 flex-row items-center justify-center absolute bottom-0 right-0 left-0 h-16 bg-slate-600 border-t ">
+      <div className="overflow-x-auto flex gap-3 flex-row items-center justify-center absolute bottom-0 right-0 left-0 h-16 bg-slate-600 border-t ">
           {
             options.map(option => (
               <button key={option} onClick={() => killBlock(option)} className="bg-white rounded-xl h-8 px-4 font-semibold text-sm text-gray-800">
