@@ -65,35 +65,59 @@ function HexagonBase({ position, color }) {
 
 const geometries = {
   square: {
-    area: <planeGeometry args={[1, 1]} />,
+    area: (
+      <>
+        <planeGeometry args={[1, 1]} />
+        <meshStandardMaterial color="orange" />
+      </>
+    ),
+
     perimeter: (
       <>
         <planeGeometry args={[1, 1]} />
-        <Edges color="red" lineWidth={5} />
+        <Edges color="red" lineWidth={3} />
+        <meshStandardMaterial
+          color="white"
+          transparent={true}
+          opacity={0}
+        />
       </>
     ),
   },
   rectangle: {
-    area: <planeGeometry args={[1, 2]} />,
+    area: (
+      <>
+        <planeGeometry args={[1, 2]} />
+        <meshStandardMaterial color="orange" />
+      </>
+    ),
     perimeter: (
       <>
         <planeGeometry args={[1, 2]} />
-        <Edges color="red" lineWidth={5} />
+        <Edges color="red" lineWidth={3} />
+        <meshStandardMaterial
+          color="white"
+          transparent={true}
+          opacity={0}
+        />
       </>
     ),
   },
   parallelogram: {
     area: (
-      <shapeGeometry
-        args={[
-          new THREE.Shape()
-            .moveTo(-1, -1)
-            .lineTo(0, 1)
-            .lineTo(2, 1)
-            .lineTo(1, -1)
-            .closePath(),
-        ]}
-      />
+      <>
+        <shapeGeometry
+          args={[
+            new THREE.Shape()
+              .moveTo(-1, -1)
+              .lineTo(0, 1)
+              .lineTo(2, 1)
+              .lineTo(1, -1)
+              .closePath(),
+          ]}
+        />
+        <meshStandardMaterial color="orange" />
+      </>
     ),
     perimeter: (
       <>
@@ -107,27 +131,41 @@ const geometries = {
               .closePath(),
           ]}
         />
-        <Edges color="red" lineWidth={5} />
+        <Edges color="red" lineWidth={3} />
+        <meshStandardMaterial
+          color="white"
+          transparent={true}
+          opacity={0}
+        />
       </>
     )
   },
   triangle: {
     area: (
-      <shapeGeometry
-        args={[new THREE.Shape().moveTo(0, 1.2).lineTo(1.2, -1.2).lineTo(-1.2, -1.2).closePath()]}
-      />
+      <>
+        <shapeGeometry
+          args={[new THREE.Shape().moveTo(0, 1.2).lineTo(1.2, -1.2).lineTo(-1.2, -1.2).closePath()]}
+        />
+        <meshStandardMaterial color="orange" />
+      </>
     ),
     perimeter: (
       <>
         <shapeGeometry
           args={[new THREE.Shape().moveTo(0, 1.2).lineTo(1.2, -1.2).lineTo(-1.2, -1.2).closePath()]}
         />
-        <Edges color="red" lineWidth={5} />
+        <Edges color="red" lineWidth={3} />
+        <meshStandardMaterial
+          color="white"
+          transparent={true}
+          opacity={0}
+        />
       </>
     )
   },
   hexagon: {
     area: (
+      <>
       <shapeGeometry
         args={[
           new THREE.Shape()
@@ -140,6 +178,8 @@ const geometries = {
             .closePath(),
         ]}
       />
+        <meshStandardMaterial color="orange" />
+      </>
     ),
     perimeter: (
       <>
@@ -155,16 +195,31 @@ const geometries = {
               .closePath(),
           ]}
         />
-        <Edges color="red" lineWidth={5} />
+        <Edges color="red" lineWidth={3} />
+        <meshStandardMaterial
+          color="white"
+          transparent={true}
+          opacity={0}
+        />
       </>
     )
   },
   circle: {
-    area: <circleGeometry args={[0.5, 32]} />,
+    area: (
+      <>
+        <circleGeometry args={[0.5, 32]} />
+        <meshStandardMaterial color="orange" />
+      </>
+    ),
     circumference: (
       <>
         <circleGeometry args={[0.5, 32]} />
-        <Edges color="red" lineWidth={5} />
+        <Edges color="red" lineWidth={3} />
+        <meshStandardMaterial
+          color="white"
+          transparent={true}
+          opacity={0}
+        />
       </>
     )
   },
