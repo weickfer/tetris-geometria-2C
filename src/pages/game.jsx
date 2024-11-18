@@ -1,23 +1,37 @@
-import { useEffect } from "react";
-import { useBlocks } from "../context/BlocksContext";
-import { TogglePause } from "../components/toggle-pause";
 import { Canvas } from "@react-three/fiber";
-import { TetrisGrid } from "../components/tetris-grid";
-import { getFormulaByPath } from "../utils/formulas";
-import { Timer } from "../components/timer";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+
 import { Board } from "../components/board";
+import GameSummaryModal from "../components/game-summary-modal";
+import { TetrisGrid } from "../components/tetris-grid";
+import { TogglePause } from "../components/toggle-pause";
+import { useBlocks } from "../context/BlocksContext";
+import { getFormulaByPath } from "../utils/formulas";
 
 export function Game() {
-  const { options, killBlock } = useBlocks()
+  const { options, killBlock, summary, retryGame } = useBlocks()
+  const navigate = useNavigate()
   
   useEffect(() => {
     if(window.MathJax) {
       window.MathJax.typeset()
     }
-  }, [options])
+  }, [options, summary.agreements, summary.errors])
   
   return (
     <div className="w-full h-screen overflow-y-hidden">
+      {
+        summary.finish && (
+          <GameSummaryModal 
+            agreements={summary.agreements}
+            errors={summary.errors}
+            onRetry={retryGame}
+            totalScore={summary.score}
+            onBackToHome={() => navigate('/')}
+          />
+        )
+      }
       <TogglePause />
       <Board />
       {/* <GoToFormulas /> */}

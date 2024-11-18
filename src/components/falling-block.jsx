@@ -8,10 +8,10 @@ import { difficultyMap } from "../utils/difficulty-map";
 
 const { difficulty } = getParamsOptions()
 
-export function FallingBlock({ position, shape, variant }) {
+export function FallingBlock({ id, position, shape, variant }) {
   const meshRef = useRef();
   const { gravity } = difficultyMap[difficulty]
-  const { handleSettle, isPlaying } = useBlocks()
+  const { blockLanded, isPlaying } = useBlocks()
   const [y, setY] = useState(position[1]);
 
   useFrame((_, delta) => {
@@ -24,6 +24,7 @@ export function FallingBlock({ position, shape, variant }) {
     } else {
       // Chama a função `onSettle` para notificar que o cubo atingiu o chão
       // handleSettle([position[0], y]);
+      blockLanded(id)
     }
 
     if(!shapes2D.includes(shape)) {

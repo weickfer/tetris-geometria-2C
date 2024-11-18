@@ -4,26 +4,27 @@ import { useBlocks } from "../context/BlocksContext"
 export function Score() {
   const lastScore = useRef()
   const [differenceScore, setDifferenceScore] = useState(0)
-  const { currentScore } = useBlocks()
+  const { summary } = useBlocks()
+  const score = summary.score;
   const hasPositive = differenceScore > 0
 
 
   useEffect(() => {
     (async () => {
-      const difference = currentScore - (lastScore.current ?? 0)
+      const difference = score - (lastScore.current ?? 0)
 
       setDifferenceScore(difference)
 
       await new Promise(resolve => setTimeout(resolve, 1000))
 
       setDifferenceScore(0)
-      lastScore.current = currentScore
+      lastScore.current = score
     })()
-  }, [currentScore])
+  }, [score])
 
   return (
     <div className="relative text-white px-2 flex items-center">
-      <p className="absolute right-2">{`${currentScore}`.padStart(2, '0')}</p>
+      <p className="absolute right-2">{`${score}`.padStart(2, '0')}</p>
 
       {
         differenceScore !== 0 && (

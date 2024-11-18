@@ -15,6 +15,7 @@ export function TetrisGrid() {
     <>
       {blocks.map((block) => (
         <FallingBlock
+          id={block.id}
           key={block.id}
           position={block.position}
           shape={block.shape}
