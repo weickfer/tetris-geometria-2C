@@ -24,6 +24,7 @@ export function BlocksProvider({ children }) {
     errors: [],
     finish: false,
     score: 0,
+    bonusGame: null,
   })
   
   const [blocks, setBlocks] = useState([]);
@@ -113,11 +114,15 @@ export function BlocksProvider({ children }) {
     // setCurrentScore(currentScore - 20)
   }
 
-  const finishGame = () => {
+  const finishGame = (bonus) => {
     setIsPlaying(false)
     setBlocks([])
+    
+    console.log(bonus)
+
     dispatch({
       type: summaryActions.FINISH_GAME,
+      addBonus: bonus,
     })
   }
 

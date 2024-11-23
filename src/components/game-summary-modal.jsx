@@ -3,24 +3,16 @@ import { XCircle, CheckCircle, Home, RefreshCw } from 'lucide-react'
 import { Button } from "./ui/button"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "./ui/accordion"
 
-import { getValueByPath } from '@/utils/get-value-by-path'
-import { formulas } from '@/utils/formulas'
-
-// interface GameSummaryModalProps {
-//   agreements: string[]
-//   errors: string[]
-//   totalScore: number
-//   onBackToHome: () => void
-//   onRetry: () => void
-// }
+import { getValueByPath } from '../utils/get-value-by-path'
+import { formulas } from '../utils/formulas'
+import { useBlocks } from '@/context/BlocksContext'
 
 export default function GameSummaryModal({
-  agreements = ["Correct answer 1", "Correct answer 2", "Correct answer 3"],
-  errors = ["Wrong answer 1", "Wrong answer 2"],
-  totalScore = 300,
   onBackToHome = () => console.log("Back to home clicked"),
   onRetry = () => console.log("Retry clicked")
 }) {
+  const { summary: manager } = useBlocks()
+  const { errors, agreements, score, bonus } = manager
   const formatFormula = async () => {
     await new Promise(res => setTimeout(res, 150))
     window.MathJax.typeset()
@@ -28,7 +20,7 @@ export default function GameSummaryModal({
 
   return (
     <div className="fixed inset-0 z-50 bg-black bg-opacity-70 flex items-center justify-center p-4">
-      <div className="overflow-y-auto max-h-[80vh] text-white bg-gray-800 rounded-lg shadow-xl max-w-md w-full my-2">
+      <div className="overflow-y-auto max-h-[85vh] text-white bg-gray-800 rounded-lg shadow-xl max-w-md w-full my-2">
         <div className="px-6 py-2">
           <h2 className="text-2xl font-bold text-center ">Resumo</h2>
         
@@ -74,9 +66,21 @@ export default function GameSummaryModal({
             </Accordion>
           </div>
           
-          <div className="text-center mt-4">
-            <h3 className="text-lg font-semibold">Pontuação Total</h3>
-            <p className="text-3xl font-bold">{totalScore}</p>
+          <div className="text-center mt-2">
+            <section className="flex flex-row justify-between items-center p-1 border-b border-gray-700">
+              <h2>Pontuação</h2>
+              <p>{score}</p>
+            </section>
+            <section className="flex flex-row justify-between items-center p-1 border-b border-gray-700">
+              <h2>Bonus</h2>
+              <p>{bonus}</p>
+            </section>
+            <section className="flex flex-row justify-between items-center p-1 border-b border-gray-700">
+              <h2>Total</h2>
+              <p>{score + bonus}</p>
+            </section>
+            {/* <h3 className="text-lg font-semibold">Pontuação Total</h3>
+            <p className="text-3xl font-bold">{score}</p> */}
           </div>
           
           <div className="flex justify-center mt-4 space-x-4">

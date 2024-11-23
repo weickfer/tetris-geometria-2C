@@ -8,30 +8,40 @@ import { TetrisGrid } from "../components/tetris-grid";
 import { TogglePause } from "../components/toggle-pause";
 import { useBlocks } from "../context/BlocksContext";
 import { getFormulaByPath } from "../utils/formulas";
+import { BonusGame } from "../components/bonus";
 
 export function Game() {
-  const { options, killBlock, summary, retryGame } = useBlocks()
+  const { options, killBlock, summary: manager, retryGame } = useBlocks()
   const navigate = useNavigate()
   
   useEffect(() => {
     if(window.MathJax) {
       window.MathJax.typeset()
     }
-  }, [options, summary.agreements, summary.errors])
+  }, [options, manager.agreements, manager.errors])
   
   return (
     <div className="w-full h-screen overflow-y-hidden">
       {
-        summary.finish && (
+        manager.finish && (
           <GameSummaryModal 
-            agreements={summary.agreements}
-            errors={summary.errors}
+            agreements={manager.agreements}
+            errors={manager.errors}
             onRetry={retryGame}
-            totalScore={summary.score}
+            score={manager.score}
             onBackToHome={() => navigate('/')}
           />
         )
       }
+
+      {
+        manager.bonusGame && (
+          <BonusGame
+            data={manager.bonusGame}
+          />
+        )
+      }
+
       <TogglePause />
       <Board />
       {/* <GoToFormulas /> */}

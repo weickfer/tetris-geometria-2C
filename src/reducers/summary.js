@@ -1,9 +1,17 @@
+import { bonus } from "@/utils/bonus"
+
 export const summaryActions = {
   ADD_AGREEMENT: "ADD_AGREEMENT",
   ADD_ERROR: "ADD_ERROR",
   FINISH_GAME: "FINISH_GAME",
   ADD_SCORE: "ADD_SCORE",
   REMOVE_SCORE: "REMOVE_SCORE",
+  SHOW_SCORE: "SHOW_SCORE",
+}
+
+function sortBonusGame() {
+  const sortedBonus = bonus[Math.floor(Math.random() * bonus.length)]
+  return sortedBonus
 }
 
 export function summaryReducer(state, action) {
@@ -21,7 +29,14 @@ export function summaryReducer(state, action) {
     case summaryActions.FINISH_GAME:
       return {
         ...state,
-        finish: true
+        
+        ...(!(action.addBonus === undefined) ? {
+          finish: true,
+          bonus: action.addBonus,
+          bonusGame: null,
+        } : {
+          bonusGame: sortBonusGame(),
+        })
       }
     case summaryActions.RESET:
       return {
@@ -29,6 +44,7 @@ export function summaryReducer(state, action) {
         agreements: [],
         errors: [],
         score: 0,
+        bonusGame: null,
       }
     case summaryActions.ADD_SCORE:
       return {
