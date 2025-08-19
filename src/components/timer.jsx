@@ -1,12 +1,13 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { useBlocks } from '../context/BlocksContext';
-import { getParamsOptions } from '../utils/get-params-options';
 import { difficultyMap } from '../utils/difficulty-map';
 
 
 export function Timer() {
   const { timerSeconds, finishGame } = useBlocks()
-  const { difficulty } = getParamsOptions()
+  const [params] = useSearchParams()
+  const difficulty = params.get('difficulty')
   const { timeTotal } = difficultyMap[difficulty]
   const time = Math.max(timeTotal - timerSeconds, 0)
   const minutes = Math.floor(time / 60);

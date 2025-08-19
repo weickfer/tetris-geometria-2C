@@ -1,15 +1,15 @@
 import { useFrame } from "@react-three/fiber";
 import { useRef, useState } from "react";
-import { GeometryMesh } from "./geometry-mesh";
-import { shapes2D } from "../utils/get-geometry";
+import { useSearchParams } from "react-router-dom";
 import { useBlocks } from "../context/BlocksContext";
-import { getParamsOptions } from "../utils/get-params-options";
 import { difficultyMap } from "../utils/difficulty-map";
-
-const { difficulty } = getParamsOptions()
+import { shapes2D } from "../utils/get-geometry";
+import { GeometryMesh } from "./geometry-mesh";
 
 export function FallingBlock({ id, position, shape, variant }) {
   const meshRef = useRef();
+  const [params] = useSearchParams()
+  const difficulty = params.get('difficulty')
   const { gravity } = difficultyMap[difficulty]
   const { blockLanded, isPlaying } = useBlocks()
   const [y, setY] = useState(position[1]);
