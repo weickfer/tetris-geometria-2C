@@ -1,11 +1,11 @@
-import React, { createContext, useContext, useEffect, useMemo, useReducer, useRef, useState } from 'react';
-import { randomSort } from '../utils/random-sort';
-import { formulas, formulasKeys } from '../utils/formulas';
-import { getRandomFormula } from '../utils/get-random-formula';
-import { getParamsOptions } from '../utils/get-params-options';
-import { difficultyMap } from '../utils/difficulty-map';
+import { createContext, useContext, useEffect, useMemo, useReducer, useState } from 'react';
 import { summaryActions, summaryReducer } from '../reducers/summary';
+import { difficultyMap } from '../utils/difficulty-map';
+import { formulasKeys } from '../utils/formulas';
+import { getRandomFormula } from '../utils/get-random-formula';
+import { randomSort } from '../utils/random-sort';
 
+import { useSearchParams } from 'react-router-dom';
 
 const BlocksContext = createContext();
 
@@ -13,11 +13,13 @@ export function useBlocks() {
   return useContext(BlocksContext);
 }
 
-const { difficulty } = getParamsOptions()
 
 export function BlocksProvider({ children }) {
   const [isPlaying, setIsPlaying] = useState(true)
   const [timerSeconds, setTimerSeconds] = useState(0)
+  const [params] = useSearchParams()
+  const difficulty = params.get('difficulty')
+ 
   // const [currentScore, setCurrentScore] = useState(0)
   const [summary, dispatch] = useReducer(summaryReducer, {
     agreements: [],
